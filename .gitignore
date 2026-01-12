@@ -41,7 +41,11 @@
 *.sln
 *.vcxproj
 *.tlog
-.lastbuildstate
+*.lastbuildstate
+*.idb
+*.log
+*.exe.*
+*.vcxproj.*
 
 # debug information files
 *.dwo
