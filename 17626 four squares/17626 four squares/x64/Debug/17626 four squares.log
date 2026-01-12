@@ -1,0 +1,4 @@
+﻿  소스.cpp
+C:\Users\shina\Desktop\study\boj\17626 four squares\17626 four squares\소스.cpp(14,14): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\shina\Desktop\study\boj\17626 four squares\17626 four squares\소스.cpp(7,6): warning C4101: 'numSquare' :참조되지 않은 지역 변수입니다.
+  17626 four squares.vcxproj -> C:\Users\shina\Desktop\study\boj\17626 four squares\x64\Debug\17626 four squares.exe

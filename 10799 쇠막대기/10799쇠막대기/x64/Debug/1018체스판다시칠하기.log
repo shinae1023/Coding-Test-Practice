@@ -1,0 +1,3 @@
+﻿  소스.cpp
+C:\Users\shina\Desktop\study\boj\1018체스판다시칠하기\1018체스판다시칠하기\소스.cpp(14,6): warning C4101: 'laser' :참조되지 않은 지역 변수입니다.
+  1018체스판다시칠하기.vcxproj -> C:\Users\shina\Desktop\study\boj\1018체스판다시칠하기\x64\Debug\10799쇠막대기.exe
