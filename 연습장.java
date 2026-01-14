@@ -3,28 +3,60 @@ import java.io.*;
 
 class Main {
     public static void main(String[] args) throws IOException {
-        // 1. 입력을 위한 BufferedReader (Scanner보다 훨씬 빠름)
+        // 1. 입출력을 위한 BufferedReader, StringBuilder
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        // 2. n (가로 크기) 입력 받기
-        int n = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+
+        // 2. 정점의 개수 n, 간선의 개수 m
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
 
         // 3. 알고리즘 로직 작성
-        /** think : 1) 세로 블럭을 두는 경우 2*n-1 수행, 2) 가로 블럭을 두는 경우 2*n-2 수행
-         * n=1 1, n=2 2,
-         * n = 3 111 12 21 3 / n = 4 1111 112 121 211 22  5/
-         * n = 5 11111 1112 1121 1211 2111 221 121 122 8/ n = 6 111111 
-         * -> 피보나치
+        /** think : 그래프 저장 - ArrayList로 양방향 저장
+         * isVisit으로 방문 여부 확인 false면 +1
+         * 연결 방문지 다 저장
           */
         
-        int[] arr = new int[1001];
-        arr[1]=1; arr[2]  = 2;
-        
-        for(int i=3; i<=n; i++){
-            arr[i] = (arr[i-1] + arr[i-2])%10007;
+        // 4. 그래프 저장
+        ArrayList<Integer>[] adj = new ArrayList[n+1]; // 인접 리스트 사용
+        boolean[] isVisit = new boolean[n+1]; //방문 여부
+        Queue<Integer> queue = new ArrayDeque<>(); // 방문에 사용
+
+        for (int i = 1; i <= n; i++) {
+            adj[i] = new ArrayList<>();
+        }   
+
+        for (int i= 1; i <= m ; i++){ 
+            st = new StringTokenizer(br.readLine());
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            adj[start].add(end); adj[end].add(start);
         }
 
-        // 4. 결과 출력
-        System.out.print(arr[n]);
+        // 5. bfs 
+        int compo = 0;
+        for (int i = 1; i <= n; i++) {
+            if (!isVisit[i]) {
+                compo++;
+                queue.offer(i);
+                isVisit[i] = true; // 넣자마자 체크!
+
+                while (!queue.isEmpty()) {
+                    int curr = queue.poll();
+
+                    for (int neighbor : adj[curr]) {
+                        if (!isVisit[neighbor]) {
+                            isVisit[neighbor] = true; // 넣자마자 체크!
+                            queue.offer(neighbor);
+                        }       
+                    }
+                }
+            }
+        }
+        // 6. 결과 출력
+        System.out.print(compo);
     }
+
 }
