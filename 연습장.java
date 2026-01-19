@@ -8,55 +8,89 @@ class Main {
 
         StringBuilder sb = new StringBuilder();
 
-        // 2. 정점의 개수 n, 간선의 개수 m
+        // 2. 필요한 변수 입력받기
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
+        int t = Integer.parseInt(st.nextToken()); // 테스트케이스 갯수
 
         // 3. 알고리즘 로직 작성
-        /** think : 그래프 저장 - ArrayList로 양방향 저장
+        /** think : 그래프 저장 - 2차원 배열로 저장
          * isVisit으로 방문 여부 확인 false면 +1
-         * 연결 방문지 다 저장
+         * 연결 방문지 큐에 넣으며 방문
           */
         
-        // 4. 그래프 저장
-        ArrayList<Integer>[] adj = new ArrayList[n+1]; // 인접 리스트 사용
-        boolean[] isVisit = new boolean[n+1]; //방문 여부
-        Queue<Integer> queue = new ArrayDeque<>(); // 방문에 사용
-
-        for (int i = 1; i <= n; i++) {
-            adj[i] = new ArrayList<>();
-        }   
-
-        for (int i= 1; i <= m ; i++){ 
+        for(;t>0;t--){
+            
+            // 4. 그래프 저장
             st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
-            adj[start].add(end); adj[end].add(start);
-        }
+            int m = Integer.parseInt(st.nextToken()); //열의 갯수
+            int n = Integer.parseInt(st.nextToken()); //행의 갯수
+            int k = Integer.parseInt(st.nextToken()); //배추 위치
+            int x,y  = 0;
+            
+            int[][] arr = new int[n][m];
+            boolean[][] isVisit = new boolean[n][m]; //방문 여부 
+            int compo = 0;
+            Queue<int[]> queue = new LinkedList<>();
 
-        // 5. bfs 
-        int compo = 0;
-        for (int i = 1; i <= n; i++) {
-            if (!isVisit[i]) {
-                compo++;
-                queue.offer(i);
-                isVisit[i] = true; // 넣자마자 체크!
+            for (int i = 0; i < k; i++) {
+                st = new StringTokenizer(br.readLine());
+                x = Integer.parseInt(st.nextToken());
+                y = Integer.parseInt(st.nextToken());
+                arr[y][x] = 1;
+            }   
 
-                while (!queue.isEmpty()) {
-                    int curr = queue.poll();
+            // 5. bfs
+            for (int i = 0; i < n; i++) {
+                for(int j = 0; j<m; j++){
+                    if(!isVisit[i][j] && arr[i][j]==1){
+                        compo++;
+                        queue.offer(new int[]{i,j});
+                        isVisit[i][j] = true;
 
-                    for (int neighbor : adj[curr]) {
-                        if (!isVisit[neighbor]) {
-                            isVisit[neighbor] = true; // 넣자마자 체크!
-                            queue.offer(neighbor);
-                        }       
+                        while(!queue.isEmpty()){
+                            int[] curr = queue.poll();
+                            x = curr[0];
+                            y = curr[1];
+                            System.out.println("x = " + x + " y = " + y + " 탐색 시작");
+                            //위
+                            if(x!=0) {
+                                if(arr[x-1][y] == 1 && isVisit[x-1][y] == false){
+                                    queue.offer(new int[]{x-1,y});
+                                    isVisit[x-1][y] =true;
+                                    System.out.println((x-1) + ", " + y + " 큐에 담음");
+                                }
+                            }
+                            //아래
+                            if(x!=n-1){
+                                if(arr[x+1][y] == 1 && isVisit[x+1][y] == false){
+                                    queue.offer(new int[]{x+1,y});
+                                    isVisit[x+1][y] = true;
+                                    System.out.println((x+1) + ", " + y + " 큐에 담음");                                    
+                                }
+                            }
+                            //좌
+                            if(y!=0){
+                                if(arr[x][y-1]==1 && isVisit[x][y-1]==false){
+                                    queue.offer(new int[]{x,y-1});
+                                    isVisit[x][y-1] = true;
+                                    System.out.println(x + ", " + (y-1) + " 큐에 담음");
+                                }
+                            }
+                            if(y!=m-1){
+                                if(arr[x][y+1]==1 && isVisit[x][y+1]==false){
+                                    queue.offer(new int[]{x,y+1});
+                                    isVisit[x][y+1] = true;
+                                    System.out.println(x + ", " + (y+1) + " 큐에 담음");
+                                }
+                            }
+                        } 
                     }
                 }
             }
+            // 6. 결과 출력
+            System.out.print(compo+"\n");
         }
-        // 6. 결과 출력
-        System.out.print(compo);
+
     }
 
 }
