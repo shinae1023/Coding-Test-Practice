@@ -8,22 +8,30 @@ class Main {
         StringBuilder sb = new StringBuilder();
 
         // 2. 필요한 변수 입력받기
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken()); // 명령어의 수
-        PriorityQueue<Long> maxHeap = new PriorityQueue<>(Collections.reverseOrder()); // 우선순위 큐 선언
+        int n = Integer.parseInt(br.readLine()); // 명령어의 수
+        PriorityQueue<Long> absHeap = new PriorityQueue<>((a,b) -> {
+            long absA = Math.abs(a); //절댓값으로 변환
+            long absB = Math.abs(b);
+
+            if(absA == absB){ //절댓값이 같으면 
+                return Long.compare(a, b); //실제 값이 작은 순서대로 저장
+            }
+            else{ //절댓값이 다르면 절댓값이 작은 순서대로 저장
+                return Long.compare(absA, absB);
+            }
+        }); // 우선순위 큐 선언
         
         for(int i = 0; i<n; i++){
-            Long num = Long.parseLong(br.readLine());
+            long num = Long.parseLong(br.readLine());
             if(num == 0 ){
-                if(maxHeap.isEmpty()== true) sb.append("0\n");
-                else sb.append(maxHeap.poll()).append("\n");
+                if(absHeap.isEmpty()== true) sb.append(0).append("\n");
+                else sb.append(absHeap.poll()).append("\n");
             }
             else{
-                maxHeap.add(num);
+                absHeap.add(num);
             }
         }
         System.out.println(sb);
-
     }
 
 }
