@@ -34,8 +34,8 @@ class Main {
             return;
         }
 
-        int area = (size * size)/4;
         int half = size/2;
+        int area = half*half;
         //사분면 판정
         if(x<half && y<half){
             cnt(half,x,y);
@@ -44,7 +44,7 @@ class Main {
             count = count+area;
             cnt(half,x,y-half);
         }
-        else if(x>half && y<half){
+        else if(x>=half && y<half){
             count = count + area*2;
             cnt(half,x-half,y);
         }
