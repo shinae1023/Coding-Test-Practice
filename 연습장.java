@@ -5,7 +5,7 @@ class Main {
     //1074 Z
     static int n,c,r = 0;
     static int count = 0;
-    static int[][] arr;
+
     public static void main(String[] args) throws IOException {
         // 1. 입출력을 위한 BufferedReader, StringBuilder
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,33 +19,39 @@ class Main {
 
         n = (int) Math.pow(2, n);
 
-        // 3. 2차원 배열 생성
-        arr = new int[n][n];
-
         // 4. 알고리즘 작성
         /**
          * 분할 정복
          * 
          */
-        cnt(n,0,0);
-
-        System.out.println(arr[c][r]);
+        cnt(n,c,r);
     }
  
     public static void cnt(int size, int x, int y){
-        while(size>2){
-            size = size/2;
-            cnt(size,x,y);
-            cnt(size,x,y+size);
-            cnt(size,x+size,y);
-            cnt(size,x+size,y+size);
+
+        if(size == 1){
+            System.out.println(count);
             return;
         }
 
-        arr[x][y] = count; count++;
-        arr[x][y+1] = count; count++;
-        arr[x+1][y] = count; count++;
-        arr[x+1][y+1] = count; count++;
+        int area = (size * size)/4;
+        int half = size/2;
+        //사분면 판정
+        if(x<half && y<half){
+            cnt(half,x,y);
+        }
+        else if(x<half && y>=half){
+            count = count+area;
+            cnt(half,x,y-half);
+        }
+        else if(x>half && y<half){
+            count = count + area*2;
+            cnt(half,x-half,y);
+        }
+        else{
+            count = count + area*3;
+            cnt(half,x-half,y-half);
+        }
     }
 }
 
