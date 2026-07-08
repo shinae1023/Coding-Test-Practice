@@ -2,19 +2,14 @@ import java.util.*;
 
 class Solution {
     public long solution(long n) {
-        List<Integer> arr = new ArrayList<>();
+        ArrayList<Integer> arr = new ArrayList<>();
         
-        while(true){
-            if(n < 10){
-                arr.add((int)n);
-                break;
-            }
-            
+        while(n>0){
             arr.add((int)(n%10));
-            n = n/10;
+            n /= 10;
         }
         
-        Collections.sort(arr,Collections.reverseOrder());
+        arr.sort(Collections.reverseOrder());
         
         String str = "";
         for(int i = 0; i < arr.size(); i++){
